@@ -36,7 +36,7 @@ public class Parqueadero{
         p.parqueadero = copiarParqueadero(p.parqueaderoOriginal);
         //Segundo carro
         System.out.println("\n------------------SEGUNDO CARRO----------------------");
-        p.parqueadero[0][4]="e";
+        //p.parqueadero[0][4]="e";
         p.resuelve(11,6);
         imprimirParqueadero(p.parqueadero,0,0);
     }
@@ -62,8 +62,6 @@ public class Parqueadero{
                 parqueadero[x][y].equals("f") || parqueadero[x][y].equals("L")|| parqueadero[x][y].equals("e")){
             return false;
         }
-
-
 
         //derecha,abajo,arriba,izquierda
         parqueadero[x][y] = "+";

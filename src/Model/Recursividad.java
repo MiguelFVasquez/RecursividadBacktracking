@@ -1,6 +1,8 @@
 
 package Model;
 
+import java.util.ArrayList;
+
 public class Recursividad {
     /**
      *
@@ -13,6 +15,31 @@ public class Recursividad {
         }
         return numero+ sumaNaturales(numero-1);
 
+    }
+    public int multiplicarNumeros(int a, int b) {
+        if (b == 0) {
+            return 0;
+        } else {
+            return a + multiplicarNumeros(a, b - 1);
+        }
+    }
+    public int sumarNumerosImpares(int n) {
+        if (n == 0) {
+            return 0;
+        } else {
+            if (n % 2 != 0) {
+                return n + sumarNumerosImpares(n - 1);
+            } else {
+                return sumarNumerosImpares(n - 1);
+            }
+        }
+    }
+    public int dividirNumeros(int a, int b) {
+        if (a < b) {
+            return 0;
+        } else {
+            return 1 + dividirNumeros(a - b, b);
+        }
     }
     public static boolean esNumeroPerfecto(int numero) {
         // Llama a la función auxiliar con índice inicial 1 y suma inicial 0
@@ -97,13 +124,44 @@ public class Recursividad {
         return subcadenaInvertida + cadena.charAt(0);
     }
 
+    public String darConsonantesRecursiva(String pal, int i) {
+        if (i < pal.length()) {
+            if (pal.charAt(i) >= 97 && pal.charAt(i) <= 122 && pal.charAt(i) != 'a' && pal.charAt(i) != 'e' && pal.charAt(i) != 'i' && pal.charAt(i) != 'o' && pal.charAt(i) != 'u') {
+                return pal.charAt(i) + "" + darConsonantesRecursiva(pal, i + 1);
+            }
+            return darConsonantesRecursiva(pal, i + 1);
+        } else {
+            return "";
+        }
+    }
+
 
 
 //--------------------ARRAYS--------------------------------------
     public static void mostrarArray(int [] arreglo, int indice){
         if (indice!=arreglo.length){
-            System.out.println(arreglo[indice]);
+            System.out.print(arreglo[indice]+ " ");
             mostrarArray(arreglo, indice+1);
+        }
+    }
+    public static void mostrarArray2(String [] arreglo, int indice){
+
+        if(indice== 0)
+            System.out.print("[");
+
+        if(indice==arreglo.length)
+            System.out.print("]");
+        if (indice!=arreglo.length){
+            System.out.print(arreglo[indice] + ", ");
+            mostrarArray2(arreglo, indice+1);
+        }
+    }
+
+    public int sumarElementosArray(ArrayList<Integer> array, int pos) {
+        if (pos >= array.size()) {
+            return 0;
+        } else {
+            return array.get(pos) + sumarElementosArray(array, pos + 1);
         }
     }
 
@@ -121,6 +179,61 @@ public class Recursividad {
         return posicionElemento(arreglo,elementoBuscar,indice+1);
 
     }
+
+    /**
+     * 2) Ordena un arreglo de manera recursiva
+     * @param arreglo
+     * @param n es el arreglo.length
+     */
+    public void ordenarArray(int[] arreglo, int n) {
+        if (n == 1) {
+            return;
+        }
+        realizarPasada(arreglo, 0, n - 1);
+        ordenarArray(arreglo, n - 1);
+    }
+    /**
+     * 2) Realiza la pasada por el arreglo modificando este mismo
+     * @param arreglo
+     * @param inicio
+     * @param fin
+     */
+    private void realizarPasada(int[] arreglo, int inicio, int fin) {
+        if (inicio == fin) {
+            return;
+        }
+        if (arreglo[inicio] > arreglo[inicio + 1]) {
+            int num = arreglo[inicio];
+            arreglo[inicio] = arreglo[inicio + 1];
+            arreglo[inicio + 1] = num;
+        }
+        realizarPasada(arreglo, inicio + 1, fin);
+    }
+
+    /**
+     * 23) Busqueda binaria recursiva
+     * @param arreglo
+     * @param num     Valor a buscar
+     * @param low     0
+     * @param high    arreglo.length - 1
+     * @return posicion del valor
+     */
+    public int binarySearchRecursiva(int[] arreglo, int num, int low, int high) {
+        if (low <= high) {
+            int mid = (low + high) / 2;
+            if (arreglo[mid] == num) {
+                return mid;
+            } else if (arreglo[mid] < num) {
+                return binarySearchRecursiva(arreglo, num, mid + 1, high);
+            } else {
+                return binarySearchRecursiva(arreglo, num, low, mid - 1);
+            }
+        } else {
+            return -1;
+        }
+    }
+
+
     //-------------------MATRICES-----------------------------------
 
     public static void recorrerMatriz(String [][] matriz, int filas, int columnas){
@@ -341,4 +454,79 @@ public class Recursividad {
             recorrerMatrizResultadoEspecifico(matriz, fila, columna - 1);
         }
     }
+
+    public int darFilaMayorRecursiva(int[][] matriz, int i, int j, int suma, int sumaMayor, int index) {
+        if (i < matriz.length) {
+            if (j < matriz[0].length) {
+                return darFilaMayorRecursiva(matriz, i, j + 1, suma + matriz[i][j], sumaMayor, index);
+            } else {
+                if (suma > sumaMayor) {
+                    sumaMayor = suma;
+                    index = i;
+                }
+                return darFilaMayorRecursiva(matriz, i + 1, 0, 0, sumaMayor, index);
+            }
+        } else {
+            return index;
+        }
+    }
+    /**
+     * 19) Suma los elementos de las columnas impares de una matriz
+     * @param matriz
+     * @param i 0
+     * @param j 0
+     * @return
+     */
+    public int sumaColumnasImpares(int[][] matriz, int i, int j, int suma) {
+        if (i < matriz.length) {
+            if (j < matriz[0].length) {
+                if (j % 2 != 0) {
+                    suma += matriz[i][j];
+                }
+                return sumaColumnasImpares(matriz, i, j + 1, suma);
+            } else {
+                return sumaColumnasImpares(matriz, i + 1, 0, suma);
+            }
+        } else {
+            return suma;
+        }
+    }
+
+
+    /**
+     * Recorre una matriz como una serpiente
+     * @param matrix
+     * @param i 0
+     * @param j 0
+     * @param cont 1
+     */
+    public void llenarMatrizSerpiente(int[][] matrix, int i, int j, int cont) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        // Caso base: Si hemos llenado toda la matriz, detener la recursión
+        if (cont > rows * cols) {
+            return;
+        }
+
+        // Llenar la fila de izquierda a derecha si la fila es par
+        if (i % 2 == 0) {
+            matrix[i][j] = cont;
+        } else { // Llenar la fila de derecha a izquierda si la fila es impar
+            matrix[i][cols - 1 - j] = cont;
+        }
+        // Calcular las coordenadas de la siguiente celda
+        int nextRow = i;
+        int nextCol = j + 1;
+
+        if (nextCol >= cols) {
+            nextRow++;
+            nextCol = 0;
+        }
+        // Llamar recursivamente con el valor incrementado
+        llenarMatrizSerpiente(matrix, nextRow, nextCol, cont + 1);
+    }
+
+
+
 }
