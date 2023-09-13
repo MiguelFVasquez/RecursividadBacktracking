@@ -74,16 +74,30 @@ public class Recursividad {
         return esPotencia(n / b, b);
     }
 //--------------------STRINGS----------------------------------------------
-public static boolean verificarVocalesSeguidas(String palabra, int indice){
-    char [] letras= palabra.toCharArray();
-    if (indice!=letras.length){
-        char letra= letras[indice];
-        if (letra=='a' || letra=='e' || letra=='i' || letra=='o' || letra=='u'){
-            return true;
+    public static boolean verificarVocalesSeguidas(String palabra, int indice){
+        char [] letras= palabra.toCharArray();
+        if (indice!=letras.length){
+            char letra= letras[indice];
+            if (letra=='a' || letra=='e' || letra=='i' || letra=='o' || letra=='u'){
+                return true;
+            }
         }
+        return verificarVocalesSeguidas(palabra,indice+1);
     }
-    return verificarVocalesSeguidas(palabra,indice+1);
-}
+    public static String invertir(String cadena) {
+        // Caso base: si la cadena es vacía o tiene un solo carácter, retorna la misma cadena.
+        if (cadena.isEmpty() || cadena.length() == 1) {
+            return cadena;
+        }
+
+        // Llama recursivamente a la función para invertir la subcadena excluyendo el primer carácter.
+        String subcadenaInvertida = invertir(cadena.substring(1));
+
+        // Concatena el primer carácter al final de la subcadena invertida.
+        return subcadenaInvertida + cadena.charAt(0);
+    }
+
+
 
 //--------------------ARRAYS--------------------------------------
     public static void mostrarArray(int [] arreglo, int indice){
@@ -266,5 +280,65 @@ public static boolean verificarVocalesSeguidas(String palabra, int indice){
         return elementoActual+promedioDiagonalPrincipal(matriz, fila+1, columna+1);
     }
 
+    //Recorrer una matriz de manera inversa
+    public static void recorrerMatrizInversa(int[][] matriz, int fila, int columna) {
+        // Verifica si hemos llegado al inicio de la matriz (fila y columna igual a 0).
+        if (fila == 0 && columna == 0) {
+            System.out.println(matriz[0][0]);
+            return;
+        }
 
+        // Imprime el valor actual de la matriz y luego llama recursivamente con la fila y columna anterior.
+        System.out.print(matriz[fila][columna] + " ");
+
+        // Caso: Llegamos al inicio de una fila, pasamos a la siguiente fila y última columna.
+        if (columna == 0) {
+            recorrerMatrizInversa(matriz, fila - 1, matriz[0].length - 1);
+        } else {
+            // Caso general: Retrocedemos a la columna anterior en la misma fila.
+            recorrerMatrizInversa(matriz, fila, columna - 1);
+        }
+    }
+
+    //Recorrer matriz de derecha a izquierda
+    public static void recorrerMatrizDerechaAIzquierda(int[][] matriz, int fila, int columna) {
+        // Verifica si hemos llegado al final de la matriz (última fila y última columna).
+        if (fila == matriz.length - 1 && columna == matriz[0].length - 1) {
+            System.out.println(matriz[fila][columna]);
+            return;
+        }
+
+        // Imprime el valor actual de la matriz y luego llama recursivamente con la fila y columna siguiente.
+        System.out.print(matriz[fila][columna] + " ");
+
+        // Caso: Llegamos al final de una fila, pasamos a la siguiente fila y primera columna.
+        if (columna == 0) {
+            recorrerMatrizDerechaAIzquierda(matriz, fila + 1, 0);
+        } else {
+            // Caso general: Avanzamos a la columna anterior en la misma fila.
+            recorrerMatrizDerechaAIzquierda(matriz, fila, columna - 1);
+        }
+    }
+    //Recorrer matriz en forma de serpiente
+    public static void recorrerMatrizResultadoEspecifico(int[][] matriz, int fila, int columna) {
+        // Verifica si hemos llegado al final de la matriz (última fila y última columna).
+        if (fila == matriz.length - 1 && columna == matriz[0].length - 1) {
+            System.out.println(matriz[fila][columna]);
+            return;
+        }
+
+        // Imprime el valor actual de la matriz y luego llama recursivamente con la fila y columna siguiente.
+        System.out.print(matriz[fila][columna] + " ");
+
+        // Caso: Llegamos al final de una fila, pasamos a la siguiente fila y primera columna.
+        if (columna == matriz[0].length - 1) {
+            recorrerMatrizResultadoEspecifico(matriz, fila + 1, 0);
+        } else if (fila % 2 == 0) {
+            // Caso general: Avanzamos a la columna siguiente en la misma fila para filas pares.
+            recorrerMatrizResultadoEspecifico(matriz, fila, columna + 1);
+        } else {
+            // Caso especial: Avanzamos a la columna anterior en la misma fila para filas impares.
+            recorrerMatrizResultadoEspecifico(matriz, fila, columna - 1);
+        }
+    }
 }

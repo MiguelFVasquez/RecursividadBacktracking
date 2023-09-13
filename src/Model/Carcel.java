@@ -31,7 +31,11 @@ public class Carcel {
         if (paso(x,y)){
             carcel[x][y]='G';
         }
-        System.out.println("Presos faltantes: "+ presosFaltantes);
+        if (presosFaltantes==0){
+            System.out.println("No se ha escapado ningun preso");
+        }else {
+            System.out.println("Se han escapado un total de: "+ presosFaltantes+ " presos");
+        }
         System.out.println("Cantidad de presos: " + cantPresos);
     }
 
@@ -43,22 +47,25 @@ public class Carcel {
      */
 
     private boolean paso(int x, int y){
-
-
+        if (x < 0 || x >= carcel.length || y < 0 || y >= carcel[0].length) {
+            return false; // Fuera de los límites
+        }
 
         if (carcel[x][y]=='C'){
             return true;
         }
-        if (carcel[x][y]=='*' || carcel[x][y]=='f' /*||carcel[x][y] == 'X' || carcel[x][y] == 'P' */){
+        if (carcel[x][y]=='*' || carcel[x][y]=='f'){
             return false;
         }
 
-        if (carcel[x][y] == 'X') {
+        if (carcel[x][y]=='X'){
             presosFaltantes++;
+            carcel[x][y]= '*';
             return false;
         }
-        if (carcel[x][y] == 'P') {
+        if (carcel[x][y]=='P' ){
             cantPresos++;
+            carcel[x][y]= '*';
             return false;
         }
         carcel[x][y]='*';
@@ -77,7 +84,7 @@ public class Carcel {
         if (result) return true;
 
         carcel[x][y]='f';
-        System.out.println(cantPresos);
+        //System.out.println(cantPresos);
         return false;
     }
 
